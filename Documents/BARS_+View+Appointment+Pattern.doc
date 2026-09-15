@@ -1,0 +1,711 @@
+Date: Thu, 10 Sep 2026 14:58:36 +0100 (BST)
+Message-ID: <868513039.1660.1789048716269@vlconappl01.corp.internal>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_1659_1506319118.1789048716268"
+
+------=_Part_1659_1506319118.1789048716268
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>BARS: View Appointment Pattern</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        table {
+            border: solid 1px;
+            border-collapse: collapse;
+        }
+
+        table td, table th {
+            border: solid 1px;
+            padding: 5px;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+@media print {
+    #main {
+        padding-bottom: 1em !important; /* The default padding of 6em is to=
+o much for printouts */
+    }
+
+    body {
+        font-family: Arial, Helvetica, FreeSans, sans-serif;
+        font-size: 10pt;
+        line-height: 1.2;
+    }
+
+    body, #full-height-container, #main, #page, #content, .has-personal-sid=
+ebar #content {
+        background: var(--ds-surface, #fff) !important;
+        color: var(--ds-text, #000) !important;
+        border: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    a, a:link, a:visited, a:focus, a:hover, a:active {
+        color: var(--ds-link-pressed, #000);
+    }
+
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4,
+    #content h5,
+    #content h6 {
+        font-family: Arial, Helvetica, FreeSans, sans-serif;
+        page-break-after: avoid;
+    }
+
+    pre {
+        font-family: Monaco, "Courier New", monospace;
+    }
+
+    #header,
+    .aui-header-inner,
+    #navigation,
+    #sidebar,
+    .sidebar,
+    #personal-info-sidebar,
+    .ia-fixed-sidebar,
+    .page-actions,
+    .navmenu,
+    .ajs-menu-bar,
+    .noprint,
+    .inline-control-link,
+    .inline-control-link a,
+    a.show-labels-editor,
+    .global-comment-actions,
+    .comment-actions,
+    .quick-comment-container,
+    #addcomment {
+        display: none !important;
+    }
+
+    /* CONF-28544 cannot print multiple pages in IE */
+    #splitter-content {
+        position: relative !important;
+    }
+
+    .comment .date::before {
+        content: none !important; /* remove middot for print view */
+    }
+
+    h1.pagetitle img {
+        height: auto;
+        width: auto;
+    }
+
+    .print-only {
+        display: block;
+    }
+
+    #footer {
+        position: relative !important; /* CONF-17506 Place the footer at en=
+d of the content */
+        margin: 0;
+        padding: 0;
+        background: none;
+        clear: both;
+    }
+
+    #poweredby {
+        border-top: none;
+        background: none;
+    }
+
+    #poweredby li.print-only {
+        display: list-item;
+        font-style: italic;
+    }
+
+    #poweredby li.noprint {
+        display: none;
+    }
+
+    /* no width controls in print */
+    .wiki-content .table-wrap,
+    .wiki-content p,
+    .panel .codeContent,
+    .panel .codeContent pre,
+    .image-wrap {
+        overflow: visible !important;
+    }
+
+    /* TODO - should this work? */
+    #children-section,
+    #comments-section .comment,
+    #comments-section .comment .comment-body,
+    #comments-section .comment .comment-content,
+    #comments-section .comment p {
+        page-break-inside: avoid;
+    }
+
+    #page-children a {
+        text-decoration: none;
+    }
+
+    /**
+     hide twixies
+
+     the specificity here is a hack because print styles
+     are getting loaded before the base styles. */
+    #comments-section.pageSection .section-header,
+    #comments-section.pageSection .section-title,
+    #children-section.pageSection .section-header,
+    #children-section.pageSection .section-title,
+    .children-show-hide {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .children-show-hide.icon {
+        display: none;
+    }
+
+    /* personal sidebar */
+    .has-personal-sidebar #content {
+        margin-right: 0;
+    }
+
+    .has-personal-sidebar #content .pageSection {
+        margin-right: 0;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>BARS: View Appointment Pattern</h1>
+    <div class=3D"Section1">
+        <h2 data-nh-numbering=3D"1.1." id=3D"BARS:ViewAppointmentPattern-Us=
+eCase"><span class=3D"nh-number">1.1. </span>Use Case</h2>
+<p>Patients accessing their appointments via the NHS app can view important=
+ information about their appointment, supporting them to arrive at their ap=
+pointment on time and prepared for the appointment.</p>
+<p><span style=3D"font-size: 20.0px;letter-spacing: -0.008em;">Overview</sp=
+an></p>
+<div style=3D"font-family: 'Segoe UI';line-height: 20.0px;color:#172b4d;">
+ <p>This use case supports the retrieval of an existing appointment from th=
+e healthcare provider that owns and maintains the appointment record.</p>
+ <p>The interaction enables an authorised sender to:</p>
+ <ul>
+  <li>View an existing appointment.</li>
+  <li>Retrieve the latest authoritative version of the appointment.</li>
+  <li>Obtain appointment status and scheduling information directly from th=
+e provider.</li>
+  <li>Support downstream workflows such as viewing, updating, cancelling, r=
+escheduling or rebooking appointments.</li>
+ </ul>
+ <p>The use case follows the BaRS Appointment Management Foundation approac=
+h, where appointment information is held by the provider and accessed using=
+ the Appointment resource.</p>
+</div>
+<h2 data-nh-numbering=3D"1.2." id=3D"BARS:ViewAppointmentPattern-Userresear=
+ch"><span class=3D"nh-number">1.2. </span>User research</h2>
+<p>This use case is based on Wayfinder user research and research with Seco=
+ndary Care Service providers, primarily Acute and Community Health Trusts.<=
+/p>
+<h2 data-nh-numbering=3D"1.3." id=3D"BARS:ViewAppointmentPattern-ScopeOverv=
+iew"><span class=3D"nh-number">1.3. </span>Scope Overview</h2>
+<div style=3D"letter-spacing: normal;font-family: 'Segoe UI';font-size: 14.=
+0px;line-height: 20.0px;color:#172b4d;">
+ <p><br></p>
+ <p>This use case covers:</p>
+ <ul>
+  <li>Retrieval of a single Appointment resource from the owning receiver, =
+where the receiver is considered to be a Provider operating a TIE or a Supp=
+lier operating an EPR.</li>
+  <li>Retrieval using a known Appointment identifier.</li>
+  <li>Access to the latest version of the Appointment resource held by the =
+provider.</li>
+ </ul>
+ <p>This use case does <strong>not</strong> cover:</p>
+ <ul>
+  <li>Creation of appointments.</li>
+  <li>Cancellation.</li>
+  <li>Rescheduling.</li>
+  <li>Rebooking.</li>
+  <li>Slot discovery.</li>
+  <li>Referral creation or management.</li>
+ </ul>
+</div>
+<h2 data-nh-numbering=3D"1.4." id=3D"BARS:ViewAppointmentPattern-Functional=
+scope"><span class=3D"nh-number">1.4. </span>Functional scope</h2>
+<p><br></p>
+<div style=3D"font-family: 'Segoe UI';line-height: 20.0px;color:#172b4d;">
+ <h3 data-nh-numbering=3D"1.4.1." id=3D"BARS:ViewAppointmentPattern-Service=
+Discovery"><span class=3D"nh-number">1.4.1. </span>Service Discovery</h3>
+ <ul>
+  <li>The provider service must be identified before the read operation is =
+performed.</li>
+  <li>The provider endpoint must be registered within BaRS <span class=3D"i=
+nline-comment-marker" data-ref=3D"a18d34f5-048b-4492-b1bd-22ed62b647c1">ser=
+vice discovery</span> infrastructure.</li>
+  <li>The sender must determine the appropriate provider endpoint before re=
+questing the appointment.</li>
+ </ul>
+ <p><br></p>
+ <div style=3D"line-height: 20.0px;">
+  <h3 data-nh-numbering=3D"1.4.2." id=3D"BARS:ViewAppointmentPattern-Appoin=
+tmentRetrieval"><span class=3D"nh-number">1.4.2. </span>Appointment Retriev=
+al</h3>
+  <ul>
+   <li>The provider is the authoritative source of the Appointment resource=
+.</li>
+   <li>The sender retrieves the Appointment using: GET/Appointment/{id}</li=
+>
+   <li>The appointment identifier must identify a single appointment owned =
+by the provider.</li>
+   <li>The provider returns the most current version of the Appointment res=
+ource.</li>
+  </ul>
+  <p><br></p>
+ </div>
+</div>
+<div style=3D"line-height: 20.0px;">
+ <h3 data-nh-numbering=3D"1.4.3." style=3D"font-family: 'Segoe UI';color:#1=
+72b4d;" id=3D"BARS:ViewAppointmentPattern-ClinicalSafety"><span class=3D"nh=
+-number">1.4.3. </span>Clinical Safety</h3>
+ <ul style=3D"font-family: 'Segoe UI';color:#172b4d;">
+  <li>The provider remains responsible for the safe presentation and interp=
+retation of appointment information.</li>
+  <li>Clinical intent must be preserved throughout the interaction.</li>
+  <li>Information returned must not be altered by intermediary systems.</li=
+>
+ </ul>
+ <h2 data-nh-numbering=3D"1.5." style=3D"font-family: 'Segoe UI';color:#172=
+b4d;" id=3D"BARS:ViewAppointmentPattern-Requirements"><span class=3D"nh-num=
+ber">1.5. </span>Requirements</h2>
+ <ul style=3D"color:#172b4d;">
+  <li data-uuid=3D"dde40281-5546-491f-9989-7cc9a1ea0a4f">The appointment re=
+turned MUST be patient facing and intended to be seen by the patient</li>
+  <li data-uuid=3D"f7b5cfc3-92e3-41e8-a5bd-4ac3e2d510d3">All patient facing=
+ filters MUST be applied at the receiver / supplier side</li>
+  <li data-uuid=3D"d21ffc3e-1af7-4c0c-83a3-05a142d4635a">The request MUST m=
+eet the minimum data requirements for an appointment, as set out in the MVP=
+ definition</li>
+ </ul>
+ <p><br></p>
+ <div style=3D"font-family: 'Segoe UI';line-height: 20.0px;color:#172b4d;">
+  <p>The sender:</p>
+  <ul>
+   <li>Must identify the provider service before requesting an appointment.=
+</li>
+   <li>Must be able to retrieve a specific appointment using its identifier=
+.</li>
+   <li>Must display appointment information accurately.</li>
+   <li>Must use the latest version returned by the provider for any subsequ=
+ent workflow.</li>
+   <li>Must perform a read operation before any appointment modification ac=
+tivity.</li>
+  </ul>
+  <div style=3D"line-height: 20.0px;">
+   <p><br></p>
+   <p>The provider:</p>
+   <ul>
+    <li>Must support retrieval of an Appointment resource using its identif=
+ier.</li>
+    <li>Must return the latest version of the Appointment resource held by =
+the service.</li>
+    <li>Must expose the appointment through the BaRS API endpoint.</li>
+    <li>Must preserve the structure and meaning of appointment information.=
+</li>
+    <li>Must respond with an appropriate error when the appointment cannot =
+be found or accessed.</li>
+    <li>Must remain the authoritative source of appointment data.</li>
+   </ul>
+   <h2 data-nh-numbering=3D"1.6." id=3D"BARS:ViewAppointmentPattern-Workflo=
+w"><span class=3D"nh-number">1.6. </span>Workflow</h2>
+   <ol>
+    <li data-uuid=3D"5f8229e0-cfaa-4413-80ce-de392fde2a4d"><span class=3D"i=
+nline-comment-marker" data-ref=3D"52dcb156-541a-4138-ab55-2561a13c4813">Ser=
+vice discovery/resolution</span>
+     <ol>
+      <li data-uuid=3D"ebee98e6-4f53-4cb4-9551-7be0a4d585a2"><span class=3D=
+"inline-comment-marker" data-ref=3D"52dcb156-541a-4138-ab55-2561a13c4813">S=
+ender identifies the provider service and endpoint through service discover=
+y/EPC</span></li>
+      <li data-uuid=3D"69f852a1-bf6d-47ed-ade6-e2b2507fd931"><span class=3D=
+"inline-comment-marker" data-ref=3D"52dcb156-541a-4138-ab55-2561a13c4813">S=
+ender constructs GET/Appointment/{id} using available endpoints</span></li>
+     </ol></li>
+    <li>Appointment identification=20
+     <ol>
+      <li data-uuid=3D"6bdfd257-1ee1-4aa2-a3be-498fd05979ed">Sender perform=
+s GET/Appointment/{id}</li>
+     </ol></li>
+    <li>Appointment response=20
+     <ol>
+      <li data-uuid=3D"c299acf2-f599-4add-998e-3dcbf1cfa85b">Provider/recei=
+ver returns the appointment resource</li>
+      <li data-uuid=3D"f5f46b05-ba41-49ca-9995-c8611ce2c909">Provider accep=
+ts _include <span class=3D"inline-comment-marker" data-ref=3D"90bba998-cc26=
+-44a5-b2db-1ca2626e164e">variable</span> and returns a single response with=
+ multiple co-located resources</li>
+      <li data-uuid=3D"d302152d-ed4e-4a55-a03c-88263c7c9ac3"><span class=3D=
+"inline-comment-marker" data-ref=3D"1ddee37e-8141-4866-9ad4-35baba0a3aed">T=
+ypical information includes</span>
+       <ol>
+        <li data-uuid=3D"ae0e10e0-c729-47e8-a746-600da8a110a4"><span class=
+=3D"inline-comment-marker" data-ref=3D"1ddee37e-8141-4866-9ad4-35baba0a3aed=
+">Appointment identifier</span></li>
+        <li data-uuid=3D"03f2353e-328b-4997-b922-5ac62166c879"><span class=
+=3D"inline-comment-marker" data-ref=3D"1ddee37e-8141-4866-9ad4-35baba0a3aed=
+">Location resource</span></li>
+        <li data-uuid=3D"21c21c5f-25c7-4ba7-ac85-dc89e6ddfd3f"><span class=
+=3D"inline-comment-marker" data-ref=3D"1ddee37e-8141-4866-9ad4-35baba0a3aed=
+">Practitioner resource</span></li>
+        <li data-uuid=3D"2571f5d4-6bd3-4c1f-97d3-d8f7d6248876"><span class=
+=3D"inline-comment-marker" data-ref=3D"1ddee37e-8141-4866-9ad4-35baba0a3aed=
+">Participant resource</span></li>
+        <li data-uuid=3D"78b6f3b8-92ee-4a38-a946-afa9ba7df80c"><span class=
+=3D"inline-comment-marker" data-ref=3D"1ddee37e-8141-4866-9ad4-35baba0a3aed=
+">Other</span></li>
+        <li data-uuid=3D"1ac338f8-3c2d-4ee2-91a5-33e8dd64baff">Appointment =
+type=20
+         <ol>
+          <li data-uuid=3D"9b0f186d-bb54-4775-8f20-ed3561a5d1b2">e.g. Outpa=
+tient (AMB), Community, etc</li>
+         </ol></li>
+       </ol></li>
+     </ol></li>
+    <li>Appointment resource conforms to FHIR R4 UK Core</li>
+    <li data-uuid=3D"356197a9-73fe-40c8-9bec-420e91cfec98">Consumer process=
+ing=20
+     <ol>
+      <li data-uuid=3D"58cae286-4fc9-4b52-8d99-7114244bc4a3">The sender pre=
+sents the appointment information to the user or uses it as the basis for s=
+ubsequent appointment management workflows</li>
+      <li data-uuid=3D"6cf0ec7e-cc9d-426d-b107-f3ca980c5f6f">The sender pro=
+cesses and handles any errors resulting from the performance of the GET app=
+ointment and provides useful information to the patient</li>
+     </ol></li>
+   </ol>
+   <p><br></p>
+   <h2 data-nh-numbering=3D"1.7." id=3D"BARS:ViewAppointmentPattern-Informa=
+tionflow"><span class=3D"nh-number">1.7. </span>Information flow</h2>
+   <p><span class=3D"confluence-embedded-file-wrapper confluence-embedded-m=
+anual-size"><img class=3D"confluence-embedded-image confluence-thumbnail" d=
+raggable=3D"false" height=3D"283" src=3D"52c45870d3f088186c978b52a910335c18=
+dce7a413578769b58b6a6f70da1358" data-image-src=3D"/download/attachments/149=
+9072310/image-2026-9-10_13-48-26.png?version=3D1&amp;modificationDate=3D178=
+9044506004&amp;api=3Dv2" data-unresolved-comment-count=3D"0" data-linked-re=
+source-id=3D"1499203184" data-linked-resource-version=3D"1" data-linked-res=
+ource-type=3D"attachment" data-linked-resource-default-alias=3D"image-2026-=
+9-10_13-48-26.png" data-base-url=3D"https://nhsd-confluence.digital.nhs.uk"=
+ data-linked-resource-content-type=3D"image/png" data-linked-resource-conta=
+iner-id=3D"1499072310" data-linked-resource-container-version=3D"10" tabind=
+ex=3D"0" alt=3D"" width=3D"297"></span></p>
+   <h2 data-nh-numbering=3D"1.8." id=3D"BARS:ViewAppointmentPattern-Accepta=
+ncecriteria"><span class=3D"nh-number">1.8. </span>Acceptance criteria</h2>
+   <p>The use case is successful when:</p>
+   <ul>
+    <li data-uuid=3D"3fa6131b-1afd-4280-8b05-ed8bd4ec1b1f">The provider is =
+identified successfully.</li>
+    <li data-uuid=3D"16b6d20b-d614-42be-aaf0-a583fdb8b8b5">The appointment =
+identifier resolves to a valid appointment.</li>
+    <li data-uuid=3D"fc733d8c-a9e8-4485-8a07-ce720ebbda1c">The provider ret=
+urns the current Appointment resource.</li>
+    <li data-uuid=3D"6bb0571e-772d-4797-b98c-dc8c566d1418">The sender recei=
+ves and displays the information without loss of meaning or structure.</li>
+    <li data-uuid=3D"a49ec391-c622-4b74-b3a6-d25410947f15">The retrieved ap=
+pointment can be used as the basis for subsequent appointment management ac=
+tions where required.</li>
+   </ul>
+   <p><br></p>
+   <h2 data-nh-numbering=3D"1.9." id=3D"BARS:ViewAppointmentPattern-Onboard=
+ing"><span class=3D"nh-number">1.9. </span>&nbsp;Onboarding</h2>
+   <p>It is expected that:</p>
+   <ul>
+    <li data-uuid=3D"7e4e2a91-21e5-4e2e-8a23-784d3d305465">The Patient Care=
+ Aggregator will onboard as a Sender</li>
+    <li data-uuid=3D"42006a2a-78d9-408b-9ce0-4290bf56d0e5">Providers and Su=
+ppliers will onboard as Receivers</li>
+    <li data-uuid=3D"dac6f3c6-0eb3-4841-90a5-7bebe945d7c5">A new solutions =
+assurance model for this pattern will be defined as a result of this use ca=
+se</li>
+   </ul>
+   <p><br></p>
+   <h3 data-nh-numbering=3D"1.9.1." id=3D"BARS:ViewAppointmentPattern-Refer=
+ences"><span class=3D"nh-number">1.9.1. </span>References</h3>
+  </div>
+ </div>
+</div>
+<p>Appointments Standard Pattern:&nbsp;<a href=3D"https://simplifier.net/gu=
+ide/nhsbookingandreferralstandard/Home/Core/1-5-0/Appointment-StandardPatte=
+rn?version=3D1.12.0#gsc.tab=3D0" class=3D"external-link" rel=3D"nofollow">N=
+HS Booking and Referral Standard</a></p>
+<p>Application 1:&nbsp;<a href=3D"https://simplifier.net/guide/nhsbookingan=
+dreferralstandard/Home/Applications/BaRS-Applications/Applications/BaRS-APP=
+1?version=3D1.12.0#gsc.tab=3D0" class=3D"external-link" rel=3D"nofollow">NH=
+S Booking and Referral Standard</a></p>
+<p><br></p>
+    </div>
+</body>
+</html>
+------=_Part_1659_1506319118.1789048716268
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: file:///C:/52c45870d3f088186c978b52a910335c18dce7a413578769b58b6a6f70da1358
+
+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
+------=_Part_1659_1506319118.1789048716268--
