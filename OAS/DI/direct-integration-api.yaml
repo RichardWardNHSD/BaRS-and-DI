@@ -1,0 +1,1271 @@
+# This is an OpenAPI Specification (https://swagger.io/specification/)
+# for the Wayfinder Direct Integration API, owned by NHS England (https://digital.nhs.uk/)
+openapi: '3.0.3'
+info:
+  title: "Wayfinder Direct Integration API Specification"
+  version: "1.0.0"
+  description: |
+    ## Overview
+    Use this API specification, as a secondary care provider, to build an API that the Wayfinder Direct Integration
+    service can use to get a list of appointments, or a single appointment, along with its related participant resources, for a patient.
+    
+    This endpoint returns the appointment as a FHIR 'Bundle' of type 'searchset'. The Appointment 'match' resource
+    is returned together with any 'include' resources requested via `_include` and `_include:iterate` 
+    
+    For example: 
+    - For Get Appointment List - `Location` resource referenced from `Appointment:location`
+    - For Get Single Appointment - the `Location`, `PractitionerRole` and `Practitioner` resources referenced from `Appointment.participant.actor`.
+    
+    FHIR APIs are just RESTful APIs that follow specific rules.
+    In particular:
+    - resource names are capitalised and singular, for example `/Appointment` not `/appointments`
+    - array names are singular, for example `entry` not `entries` for FHIR bundle entries
+    - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
+    
+    As a secondary care provider, you'll also need to: 
+    - use the [Patient Care Aggregator Record Service API](https://digital.nhs.uk/developer/api-catalogue/patient-care-aggregator-record-service/patient-care-aggregator-record-service-api) to let the let the Patient Care Aggregator know which patients you have appointments for.
+    
+    ## Who can use this API standard
+    You can only use this API standard if you are integrating a secondary care booking system with the Wayfinder Direct Integration service.
+    
+    ## Status
+    This API standard is in [beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning it is available for use but might be subject to breaking changes.
+    
+    ## Service level
+    Your API must be a gold service, meaning it is operational and supported 24 hours a day, 365 days a year.
+    
+    For more details, see [service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).
+    
+    ## Technology
+    TO-DO add NFR information.
+    This API standard is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#basic-rest).
+    
+    It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#fhir)
+    global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/),
+    except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
+    
+    It includes some country-specific FHIR extensions, which have been built against [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core).
+    
+    You must adhere to the following requirements when integrating to the Wayfinder Direct Integration service.
+    | Requirement Reference | Quality attribute(s) | Requirement | MoSCoW |
+    |-----------------------|----------------------|-------------|--------|
+    
+    ## Network access
+    This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network).
+    For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
+    
+    ## Security and authorisation
+    TO-DO reference BaRS/APIM mTLS.
+    Your API must use OAuth 2.0 to authenticate and authorise the calling system.
+    For more details, see [Authorisation using OAuth 2.0](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation).
+  contact:
+    name: 'Wayfinder Direct Integration API Support'
+    url: 'https://digital.nhs.uk/developer/help-and-support'
+    email: api.management@nhs.net
+x-spec-publication:
+  try-this-api:
+    disabled: true
+servers:
+  - url: 'https://int.api.service.nhs.uk'
+    description: End-to-end test environment.
+  - url: 'https://api.service.nhs.uk'
+    description: Production environment.
+paths:
+  /Appointment:
+    get:
+      summary: "Returns a FHIR Appointment resource with included participant resources"
+      operationId: get-appointment
+      description: |
+        ## Overview TO-DO
+        This endpoint returns the results as a FHIR 'Bundle' of type 'searchset' containing:
+        - the matching FHIR 'Appointment' resource (`search.mode` = `match`)
+        - the Location resource specifically requested via `_include=Appointment:Location`
+        - any resources requested via `_include=Appointment:actor` (`search.mode` = `include`), such as `Location`, `PractitionerRole` and `Practitioner`
+        - the `Practitioner` referenced from an included `PractitionerRole` when requested via `_include:iterate=PractitionerRole:practitioner`
+        Note that the above URL path is an example - you can use a different URL path if you prefer.
+        
+        ## Appointment inclusion and exclusion rules
+        The endpoint includes / excludes appointments as per the following rules:
+        - NHS in England only: Only include appointments for care settings within the NHS in England.
+        - Excluded patients (Trust) (SRCBR1a): Exclude appointments for patients flagged from/within a Trust as not being allowed access via NHS App.
+        - Excluded patients (PDS) (SRCBR1b): Appointments for patients flagged as sensitive / restricted within PDS must be filtered out.
+        - Under 16s: Exclude patients under 16.
+        
+        ## Patients with no appointment
+        Where the requested appointments cannot be found or has been excluded due to the various exclusion rules above,
+        the endpoint returns a 'happy path' response with an HTTP status of 200 and a FHIR Bundle with `total` set to 0.
+        
+        ## Capacity and response times
+        Your endpoint must be capable of:
+        - responding to requests within 400ms (at the 95th percentile)
+        - at a throughput of 60 transactions per second
+        
+        ## Diagnostic logging
+        - All requests to the endpoint must be logged for diagnostic purposes.
+        - Log records must include the `X-Correlation-ID`.
+        - Personally identifiable and clinical information must be omitted from logs in production.
+        - Log records must be held for a minimum of 90 days.
+        
+        ## Error and fault responses
+        Your API must return appropriate HTTP error and fault codes. The schema for a 200 success response is detailed
+        in this specification. We do ask that you include an error message in the response payload explaining clearly
+        what went wrong.
+      tags:
+        - /FHIR/R4
+      parameters:
+        - $ref: "#/components/parameters/nhsNumber"
+        - $ref: "#/components/parameters/appointmentId"
+        - $ref: "#/components/parameters/include"
+        - $ref: "#/components/parameters/includeIterate"
+        # - $ref: "#/components/parameters/xRequestId"
+        - $ref: "#/components/parameters/xCorrelationId"
+        - $ref: "#/components/parameters/nhsdIdToken"
+      responses:
+        2XX:
+          $ref: "#/components/responses/appointmentHappyPath"
+        4XX:
+          $ref: "#/components/responses/4XX"
+        5XX:
+          $ref: "#/components/responses/5XX"
+components:
+  schemas:
+    Bundle:
+      description: FHIR bundle resource containing the results of the request - the matching Appointment and any included resources.
+      type: object
+      required:
+        - resourceType
+        - type
+        - total
+      properties:
+        resourceType:
+          description: "FHIR resource type."
+          type: string
+          enum:
+            - "Bundle"
+        type:
+          description: Bundle type.
+          type: string
+          enum:
+            - "searchset"
+        total:
+          description: "The total number of 'match' resources that matched the search. Included ('include') resources do not count towards the total."
+          type: integer
+          minimum: 0
+          example: 1
+        link:
+          description: "Links related to this Bundle, for example the 'self' link representing the search that produced it."
+          type: array
+          items:
+            type: object
+            required:
+              - relation
+              - url
+            properties:
+              relation:
+                description: "The relationship of this link to the Bundle, for example 'self'."
+                type: string
+                example: "self"
+              url:
+                description: "The reference URL for this link."
+                type: string
+                example: "https://api.example.nhs.uk/fhir/R4/Appointment?_id=appt12345&_include=Appointment:actor&_include:iterate=PractitionerRole:practitioner"
+        entry:
+          description: "List of matching and included FHIR resources."
+          type: array
+          minItems: 0
+          items:
+            anyOf:
+              - description: An individual FHIR Appointment resource (the 'match').
+                type: object
+                required:
+                  - resource
+                properties:
+                  fullUrl:
+                    description: "The absolute URL of the resource."
+                    type: string
+                    example: "https://api.example.nhs.uk/fhir/R4/Appointment/12345"
+                  search:
+                    $ref: '#/components/schemas/Search'
+                  resource:
+                    $ref: '#/components/schemas/Appointment'
+              - description: An individual FHIR Location resource (an 'include').
+                type: object
+                required:
+                  - resource
+                properties:
+                  fullUrl:
+                    type: string
+                    example: "https://api.example.nhs.uk/fhir/R4/Location/456"
+                  search:
+                    $ref: '#/components/schemas/Search'
+                  resource:
+                    $ref: '#/components/schemas/Location'
+              - description: An individual FHIR PractitionerRole resource (an 'include').
+                type: object
+                required:
+                  - resource
+                properties:
+                  fullUrl:
+                    type: string
+                    example: "https://api.example.nhs.uk/fhir/R4/PractitionerRole/987"
+                  search:
+                    $ref: '#/components/schemas/Search'
+                  resource:
+                    $ref: '#/components/schemas/PractitionerRole'
+              - description: An individual FHIR Practitioner resource (an 'include').
+                type: object
+                required:
+                  - resource
+                properties:
+                  fullUrl:
+                    type: string
+                    example: "https://api.example.nhs.uk/fhir/R4/Practitioner/111"
+                  search:
+                    $ref: '#/components/schemas/Search'
+                  resource:
+                    $ref: '#/components/schemas/Practitioner'
+    Search:
+      description: "Search related information for a Bundle entry, indicating whether the entry is a match or was included."
+      type: object
+      required:
+        - mode
+      properties:
+        mode:
+          description: "Why this entry is in the result set - whether it matched the search ('match') or was pulled in by an `_include` ('include')."
+          type: string
+          enum:
+            - match
+            - include
+    Appointment:
+      description: "FHIR Appointment resource for the appointment."
+      type: object
+      required:
+        - resourceType
+        - id
+        - extension
+        - _patientInstruction
+        - description
+        - specialty
+        - status
+        - start
+        - participant
+      properties:
+        resourceType:
+          description: "FHIR resource type."
+          type: string
+          enum:
+            - Appointment
+        id:
+          description: "A GUID identifier for the appointment. It is preferable but not mandatory that this GUID links relationally to other resources in your system database."
+          type: string
+          example: "12345"
+        meta:
+          description: "Metadata about the resource, including the FHIR profile(s) it claims conformance to and any security labels."
+          type: object
+          properties:
+            profile:
+              description: "The FHIR profile(s) this resource claims conformance to."
+              type: array
+              items:
+                type: string
+                example: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Appointment"
+            security:
+              description: "Security labels applied to the resource, for example a 'no disclosure to patient/subject' (NOPAT) confidentiality label."
+              type: array
+              items:
+                type: object
+                properties:
+                  system:
+                    type: string
+                    enum:
+                      - "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+                  code:
+                    type: string
+                    example: "NOPAT"
+        contained:
+          description: "Inline resources referenced from within this Appointment, for example a Media resource referenced by the patient instruction."
+          type: array
+          items:
+            description: "A contained Media resource holding patient preparation guidance URL."
+            type: object
+            required:
+              - resourceType
+              - id
+              - status
+            properties:
+              resourceType:
+                type: string
+                enum:
+                  - Media
+              id:
+                type: string
+                example: "uro-leaf-6176"
+              status:
+                type: string
+                example: "preparation"
+              content:
+                description: "The actual content reference for the Media resource."
+                type: object
+                properties:
+                  contentType:
+                    type: string
+                    example: "text/html"
+                  url:
+                    type: string
+                    example: "https://exampletrust.nhs.uk/patient-info/patient-leaftlet-urology"
+                  title:
+                    type: string
+                    example: "Urology patient preparation guidance"
+        extension:
+          description: "FHIR extensions for the appointment resource."
+          type: array
+          items:
+            anyOf:
+              - description: "Appointment delivery channel - whether the visit is in person or remote (UK Core)."
+                type: object
+                required:
+                  - url
+                  - valueCodeableConcept
+                properties:
+                  url:
+                    type: string
+                    description: URI for the type of extension - in this case an appointment delivery channel.
+                    enum:
+                      - "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AppointmentDeliveryChannel"
+                  valueCodeableConcept:
+                    type: object
+                    properties:
+                      coding:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - system
+                            - code
+                            - display
+                          properties:
+                            system:
+                              type: string
+                              enum:
+                                - "https://fhir.hl7.org.uk/CodeSystem/UKCore-AppointmentDeliveryChannel"
+                            code:
+                              type: string
+                              enum:
+                                - "In-person"
+                                - "Telephone"
+                                - "Video"
+                              example: "In-person"
+                            display:
+                              type: string
+                              example: "In person"
+              - description: "Appointment reschedule mode - whether the patient is allowed to reschedule the appointment (UK Core)."
+                type: object
+                required:
+                  - url
+                  - valueCodeableConcept
+                properties:
+                  url:
+                    type: string
+                    description: URI for the type of extension - in this case an appointment reschedule mode.
+                    enum:
+                      - "https://fhir.nhs.uk/England/StructureDefinition/extension-appointment-reschedule-mode"
+                  valueCodeableConcept:
+                    type: object
+                    properties:
+                      coding:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - system
+                            - code
+                            - display
+                          properties:
+                            system:
+                              type: string
+                              enum:
+                                - "https://fhir.nhs.uk/England/CodeSystem/appointment-action-mode"
+                            code:
+                              type: string
+                              enum:
+                                - "direct"
+                                - "request"
+                                - "not-allowed"
+                              example: "not-allowed"
+                            display:
+                              type: string
+                              example: "Not allowed"
+              - description: "Appointment cancellation mode - whether the patient is allowed to cancel the appointment (UK Core)."
+                type: object
+                required:
+                  - url
+                  - valueCodeableConcept
+                properties:
+                  url:
+                    type: string
+                    description: URI for the type of extension - in this case an appointment cancellation mode.
+                    enum:
+                      - "https://fhir.nhs.uk/England/StructureDefinition/extension-appointment-cancellation-mode"
+                  valueCodeableConcept:
+                    type: object
+                    properties:
+                      coding:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - system
+                            - code
+                            - display
+                          properties:
+                            system:
+                              type: string
+                              enum:
+                                - "https://fhir.nhs.uk/England/CodeSystem/appointment-action-mode"
+                            code:
+                              type: string
+                              enum:
+                                - "direct"
+                                - "request"
+                                - "not-allowed"
+                              example: "not-allowed"
+                            display:
+                              type: string
+                              example: "Not allowed"
+        _patientInstruction:
+          description: "The FHIR R4 primitive extension sibling for the R5 `patientInstruction` element, carrying patient-facing instructions as a CodeableReference to a contained Media resource. Further information can be found in https://simplifier.net/packages/hl7.fhir.uv.xver-r5.r4/0.1.0/files/3366367/~overview"
+          type: object
+          properties:
+            extension:
+              type: array
+              items:
+                type: object
+                required:
+                  - url
+                properties:
+                  url:
+                    type: string
+                    description: "URI for the cross-version patientInstruction extension."
+                    enum:
+                      - "http://hl7.org/fhir/5.0/StructureDefinition/extension-Appointment.patientInstruction"
+                  extension:
+                    description: "The nested extension parts describing the datatype and the reference."
+                    type: array
+                    items:
+                      anyOf:
+                        - description: "Declares the datatype of the cross-version element."
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              enum:
+                                - "http://hl7.org/fhir/StructureDefinition/_datatype"
+                            valueString:
+                              type: string
+                              example: "CodeableReference"
+                        - description: "The reference to the contained Media resource holding the instruction."
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              enum:
+                                - "reference"
+                            valueReference:
+                              type: object
+                              properties:
+                                reference:
+                                  type: string
+                                  example: "#uro-leaf-6176"
+                                type:
+                                  type: string
+                                  example: "Media"
+                                display:
+                                  type: string
+                                  example: "Arrive with a full bladder. Please review the preparation guidance before attending."
+        status:
+          description: "The actual appointment booking status as reported by the source Trust PAS system."
+          type: string
+          enum:
+            - booked
+            - fulfilled
+            - cancelled
+            - noshow
+        description:
+          description: "The patient-friendly standardised description/title of the appointment that would be appropriate to display to a patient."
+          type: string
+          example: "Cardiology"
+        specialty:
+          description: "NHS Specialty (UK Core practice setting code)."
+          type: array
+          minItems: 0
+          maxItems: 1
+          items:
+            type: object
+            properties:
+              coding:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      description: Coding system for the specialty / practice setting code.
+                      enum:
+                        - "https://fhir.hl7.org.uk/CodeSystem/UKCore-PracticeSettingCode"
+                    code:
+                      description: "Three-digit NHS specialty code."
+                      type: string
+                      example: "320"
+                    display:
+                      description: "NHS specialty name."
+                      type: string
+                      example: "Cardiology"
+        start:
+          description: "Start date/time of appointment in a UTC format."
+          type: string
+          example: "2026-08-12T09:30:00Z"
+        end:
+          description: "End date/time of appointment in a UTC format."
+          type: string
+          example: "2026-08-12T10:00:00Z"
+        participant:
+          type: array
+          description: "Participants in the appointment, including the patient, practitioners, practitioner roles and the location. Each actor is expressed as a FHIR reference that can be resolved via `_include`."
+          minItems: 1
+          items:
+            type: object
+            required:
+              - actor
+              - status
+            properties:
+              actor:
+                type: object
+                required:
+                  - reference
+                properties:
+                  reference:
+                    description: "A relative reference to the participant resource, resolvable via `_include=Appointment:actor`."
+                    type: string
+                    example: "Location/456"
+                  display:
+                    description: "A human-readable label for the participant."
+                    type: string
+                    example: "Cardiology Outpatients, Clinic 4"
+              status:
+                type: string
+                enum:
+                  - accepted
+                  - declined
+                  - tentative
+                  - needs-action
+    Location:
+      description: "FHIR Location resource, included when `_include=Appointment:actor` resolves a Location participant."
+      type: object
+      required:
+        - resourceType
+        - id
+        - name
+        - telecom
+        - address
+        - managingOrganization
+      properties:
+        resourceType:
+          type: string
+          enum:
+            - Location
+        id:
+          type: string
+          example: "456"
+        name:
+          description: "Name of the location as used by humans."
+          type: string
+          example: "Cardiology Clinic"
+        telecom:
+          description: "Contact details for the location."
+          type: array
+          items:
+            type: object
+            properties:
+              system:
+                type: string
+                enum:
+                  - phone
+                  - email
+              value:
+                type: string
+                example: "020 7188 1234"
+              use:
+                type: string
+                enum:
+                  - home
+                  - work
+                  - temp
+                  - old
+                  - mobile
+                example: "work"
+        address:
+          description: "Physical location address."
+          type: object
+          properties:
+            use:
+              type: string
+              example: "work"
+            type:
+              type: string
+              example: "physical"
+            line:
+              type: array
+              items:
+                type: string
+              example:
+                - "Cardiology Department"
+                - "St Thomas' Hospital"
+                - "Westminster Bridge Road"
+            city:
+              type: string
+              example: "London"
+            postalCode:
+              type: string
+              example: "SE1 7EH"
+            country:
+              type: string
+              example: "GB"
+        position:
+          description: "The absolute geographic location of the Location, expressed using the WGS84 datum."
+          type: object
+          properties:
+            longitude:
+              type: number
+              example: -0.11833
+            latitude:
+              type: number
+              example: 51.49889
+        managingOrganization:
+          description: "The organisation responsible for appointment, identified by ODS code."
+          type: object
+          properties:
+            identifier:
+              type: object
+              properties:
+                system:
+                  type: string
+                  enum:
+                    - "https://fhir.nhs.uk/Id/ods-organization-code"
+                value:
+                  type: string
+                  example: "RJ1"
+    PractitionerRole:
+      description: "FHIR PractitionerRole resource, included when `_include=Appointment:actor` resolves a PractitionerRole participant."
+      type: object
+      required:
+        - resourceType
+        - id
+      properties:
+        resourceType:
+          type: string
+          enum:
+            - PractitionerRole
+        id:
+          type: string
+          example: "987"
+        code:
+          description: "Roles which this practitioner is authorised to perform for the organisation."
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      enum:
+                        - "http://snomed.info/sct"
+                    code:
+                      type: string
+                      example: "17561000"
+                    display:
+                      type: string
+                      example: "Cardiologist"
+        practitioner:
+          description: "Reference to the Practitioner who is in the role, resolvable via `_include:iterate=PractitionerRole:practitioner`."
+          type: object
+          properties:
+            reference:
+              type: string
+              example: "Practitioner/111"
+    Practitioner:
+      description: "FHIR Practitioner resource, included when `_include:iterate=PractitionerRole:practitioner` resolves the Practitioner referenced by an included PractitionerRole."
+      type: object
+      required:
+        - resourceType
+        - id
+      properties:
+        resourceType:
+          type: string
+          enum:
+            - Practitioner
+        id:
+          type: string
+          example: "111"
+        name:
+          description: "The name(s) associated with the practitioner."
+          type: array
+          items:
+            type: object
+            properties:
+              family:
+                description: "Family name (often called surname)."
+                type: string
+                example: "Smith"
+              given:
+                description: "Given names (not always first). Includes middle names."
+                type: array
+                items:
+                  type: string
+                example:
+                  - "Jane"
+    OperationOutcome:
+      description: A FHIR `OperationOutcome` resource containing details of the issues that have occurred.
+      type: object
+      required:
+        - resourceType
+        - issue
+      properties:
+        resourceType:
+          description: FHIR resource type.
+          type: string
+          minLength: 1
+          enum:
+            - OperationOutcome
+        id:
+          type: string
+        issue:
+          description: An array of issues that occurred in processing the request.
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            description: An issue that occurred.
+            type: object
+            required:
+              - severity
+              - code
+            properties:
+              severity:
+                description: Severity of the issue.
+                type: string
+                minLength: 1
+                enum:
+                  - fatal
+                  - error
+                  - warning
+                  - information
+              code:
+                description: Error code for the issue. See [http://hl7.org/fhir/issue-type](http://hl7.org/fhir/issue-type)
+                type: string
+                minLength: 1
+              diagnostics:
+                description: Detailed diagnostic information for the issue.
+                type: string
+                minLength: 1
+                example: Missing or invalid OAuth 2.0 bearer token in request
+      externalDocs:
+        description: FHIR UK Core OperationOutcome (R4) Resource Profile
+        url: https://hl7.org/fhir/R4/operationoutcome.html
+  parameters:
+    nhsNumber:
+      name: patient:identifier
+      in: query
+      description: |
+        The patient's NHS number.
+        Expressed as `<type>|<value>` where `<type>` must be `https://fhir.nhs.uk/Id/nhs-number` and `<value>` must be a [valid NHS number](https://www.datadictionary.nhs.uk/attributes/nhs_number.html).
+        
+        Used for getting list of apppointments.
+      required: true
+      schema:
+        type: string
+        pattern: ^https:\/\/fhir\.nhs\.uk\/Id\/nhs-number\|[1-9][0-9]{9}$
+        example: https://fhir.nhs.uk/Id/nhs-number|9000000009
+    appointmentId:
+      name: _id
+      in: query
+      required: true
+      description: |
+        The FHIR logical id of the Appointment resource to retrieve.
+      schema:
+        type: string
+        example: appt12345
+    include:
+      name: _include
+      in: query
+      required: true
+      description: |
+        Requests that the resources referenced by `Appointment.participant.actor` (for example Location, Practitioner and PractitionerRole) are included in the response Bundle.
+        
+        Get Appointment Lists will require the Location resource primarily for the ODS code.
+        Get Single Appointment will require all associated resources referenced in the appointment resource actors.
+      schema:
+        type: string
+        enum:
+          - "Appointment:location"
+          - "Appointment:actor"
+        example: "Appointment:actor"
+    includeIterate:
+      name: _include:iterate
+      in: query
+      required: true
+      description: |
+        Requests that the Practitioner referenced by an already-included PractitionerRole is also included (iteratively) in the response Bundle.
+      schema:
+        type: string
+        enum:
+          - "PractitionerRole:practitioner"
+        example: "PractitionerRole:practitioner"
+    xRequestId:
+      name: X-Request-ID
+      in: header
+      required: false
+      description: |
+        A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
+        Must be a universally unique identifier (UUID) (ideally version 4).
+        If you re-send a failed request, use the same value in this header.
+      schema:
+        type: string
+        format: uuid
+        example: 8b16ccfa-8e46-4ba5-bd04-ba9371c69db9
+    xCorrelationId:
+      name: X-Correlation-ID
+      in: header
+      required: true
+      description: An identifier which is used to track transactions across multiple systems. It can take any value, but we recommend avoiding `.` characters.
+      schema:
+        type: string
+        format: uuid
+        example: c93e2449-a2ef-4476-ad15-13491036be22
+    nhsdIdToken:
+      name: NHSD-ID-Token
+      in: header
+      required: true
+      description: |
+        An NHS login ID token for the end user patient, passed as a header called NHSD-ID-Token token.
+        This is generated when the user logs into NHS App via NHS login and passed to this API for validation and signature verification.
+        You must verify this token with NHS login and confirm that it is for the right patient and that the patient is authenticated to level P9.
+        For more details, see [NHS login for partners and developers](https://digital.nhs.uk/services/nhs-login/nhs-login-for-partners-and-developers).
+      schema:
+        type: string
+        format: byte
+        example: eyJzdWIiOiI4MmEyOTZkMC03NTJjLTRjZjEtOWEwMC03MzgwNmJiMWY4MzMiLCJhdWQiOiJuaHMtb25saW5lIn0
+  securitySchemes:
+    oAuth2ClientCredentials:
+      type: "oauth2"
+      description: "See https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis"
+      flows:
+        clientCredentials:
+          tokenUrl: "https://int.api.service.nhs.uk/oauth2/token"
+          scopes: {}
+  responses:
+    appointmentHappyPath:
+      description: A successful request.
+      headers:
+        X-Correlation-ID:
+          $ref: "#/components/headers/xCorrelationId"
+      content:
+        application/fhir+json:
+          schema:
+            $ref: "#/components/schemas/Bundle"
+          examples:
+            emptyBundle:
+              $ref: "#/components/examples/emptyBundle"
+            appointmentListWithIncludedLocation:
+              $ref: "#/components/examples/appointmentListWithIncludedLocation"
+            appointmentSingleWithIncludedActors:
+              $ref: "#/components/examples/appointmentSingleWithIncludedActors"
+    4XX:
+      description: |
+        TO-DO - revise.
+        When the service is unable to serve a successful response a FHIR `OperationOutcome` resource should be returned with the relevant HTTP status code defined as follows:
+        | HTTP status | Error code          | Description                                                         |
+        | ----------- | ------------------- | ------------------------------------------------------------------- |
+        | 400         | `exception`         | Missing or invalid `_id` search parameter in request                |
+        | 401         | `processing`        | Missing or invalid OAuth 2.0 bearer token in request                |
+        | 403         | `forbidden`         | Patient is under 16 years of age                                    |
+        | 404         | `not-found`         | The requested appointment was not found                             |
+        | 429         | `TOO_MANY_REQUESTS` | You have exceeded your application's rate limit.                    |
+        For details see the `diagnostics` field.
+      headers:
+        X-Correlation-ID:
+          $ref: "#/components/headers/xCorrelationId"
+      content:
+        application/fhir+json:
+          schema:
+            $ref: "#/components/schemas/OperationOutcome"
+          examples:
+            missingId:
+              $ref: "#/components/examples/missingId"
+            invalidAuthToken:
+              $ref: "#/components/examples/invalidAuthToken"
+            under16:
+              $ref: "#/components/examples/under16"
+            notFound:
+              $ref: "#/components/examples/notFound"
+            rateLimit:
+              $ref: "#/components/examples/rateLimit"
+    5XX:
+      description: |
+        When the service is unable to serve a successful response a FHIR `OperationOutcome` resource should be returned with the relevant HTTP status code defined as follows:
+        | HTTP status | Error code          | Description                                                         |
+        | ----------- | ------------------- | ------------------------------------------------------------------- |
+        | 504         | `exception`         | Gateway Timeout                                                     |
+        For details see the `diagnostics` field.
+      headers:
+        X-Correlation-ID:
+          $ref: "#/components/headers/xCorrelationId"
+      content:
+        application/fhir+json:
+          schema:
+            $ref: "#/components/schemas/OperationOutcome"
+          examples:
+            gatewayTimeout:
+              $ref: "#/components/examples/gatewayTimeout"
+  headers:
+    xRequestId:
+      schema:
+        type: string
+        format: uuid
+        example: 8b16ccfa-8e46-4ba5-bd04-ba9371c69db9
+      description: Request parameter value echoed back (when provided)
+    xCorrelationId:
+      schema:
+        type: string
+        format: uuid
+        example: c93e2449-a2ef-4476-ad15-13491036be22
+      description: Request parameter value echoed back (when provided)
+  examples:
+    emptyBundle:
+      summary: 200 Empty bundle / no activity
+      description: A response where no matching appointment was found for the provided search parameters.
+      value:
+        resourceType: Bundle
+        type: searchset
+        total: 0
+    appointmentSingleWithIncludedActors:
+      summary: 200 Single Appointment with included Location, PractitionerRole and Practitioner
+      description: A response for a matched Appointment with its participant actors resolved via `_include` and `_include:iterate`.
+      value:
+        resourceType: Bundle
+        type: searchset
+        total: 1
+        link:
+          - relation: self
+            url: "https://api.example.nhs.uk/fhir/R4/Appointment?_id=appt12345&_include=Appointment:actor&_include:iterate=PractitionerRole:practitioner"
+        entry:
+          - search:
+              mode: match
+            fullUrl: "https://api.example.nhs.uk/fhir/R4/Appointment/12345"
+            resource:
+              resourceType: Appointment
+              id: "12345"
+              contained:
+                - resourceType: Media
+                  id: "uro-leaf-6176"
+                  status: preparation
+                  content:
+                    contentType: "text/html"
+                    url: "https://exampletrust.nhs.uk/patient-info/patient-leaftlet-urology"
+                    title: "Urology patient preparation guidance"
+              meta:
+                profile:
+                  - "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Appointment"
+                security:
+                  - system: "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+                    code: "NOPAT"
+              status: booked
+              description: "Cardiology"
+              start: "2026-08-12T09:30:00Z"
+              end: "2026-08-12T10:00:00Z"
+              specialty:
+                - coding:
+                    - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-PracticeSettingCode"
+                      code: "320"
+                      display: "Cardiology"
+              extension:
+                - url: "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AppointmentDeliveryChannel"
+                  valueCodeableConcept:
+                    coding:
+                      - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-AppointmentDeliveryChannel"
+                        code: "In-person"
+                        display: "In person"
+                - url: "https://fhir.nhs.uk/England/StructureDefinition/extension-appointment-reschedule-mode"
+                  valueCodeableConcept:
+                    coding:
+                      - system: "https://fhir.nhs.uk/England/CodeSystem/appointment-action-mode"
+                        code: "not-allowed"
+                        display: "Not allowed"
+                - url: "https://fhir.nhs.uk/England/StructureDefinition/extension-appointment-cancellation-mode"
+                  valueCodeableConcept:
+                    coding:
+                      - system: "https://fhir.nhs.uk/England/CodeSystem/appointment-action-mode"
+                        code: "not-allowed"
+                        display: "Not allowed"
+              _patientInstruction:
+                extension:
+                  - url: "http://hl7.org/fhir/5.0/StructureDefinition/extension-Appointment.patientInstruction"
+                    extension:
+                      - url: "http://hl7.org/fhir/StructureDefinition/_datatype"
+                        valueString: "CodeableReference"
+                      - url: "reference"
+                        valueReference:
+                          reference: "#uro-leaf-6176"
+                          type: "Media"
+                          display: "Arrive with a full bladder. Please review the preparation guidance before attending."
+              participant:
+                - actor:
+                    reference: "Patient/222"
+                    display: "John Doe"
+                  status: accepted
+                - actor:
+                    reference: "Practitioner/111"
+                    display: "Dr Jane Smith"
+                  status: accepted
+                - actor:
+                    reference: "PractitionerRole/987"
+                    display: "Consultant Cardiologist"
+                  status: accepted
+                - actor:
+                    reference: "Location/456"
+                    display: "Cardiology Outpatients, Clinic 4"
+                  status: accepted
+          - search:
+              mode: include
+            fullUrl: "https://api.example.nhs.uk/fhir/R4/Location/456"
+            resource:
+              resourceType: Location
+              id: "456"
+              name: "Cardiology Clinic"
+              telecom:
+                - system: phone
+                  value: "020 7188 1234"
+                  use: work
+                - system: email
+                  value: "cardiology.clinic@trust.nhs.uk"
+                  use: work
+              address:
+                use: work
+                type: physical
+                line:
+                  - "Cardiology Department"
+                  - "St Thomas' Hospital"
+                  - "Westminster Bridge Road"
+                city: "London"
+                postalCode: "SE1 7EH"
+                country: "GB"
+              position:
+                longitude: -0.11833
+                latitude: 51.49889
+              managingOrganization:
+                identifier:
+                  system: "https://fhir.nhs.uk/Id/ods-organization-code"
+                  value: "RJ1"
+          - search:
+              mode: include
+            fullUrl: "https://api.example.nhs.uk/fhir/R4/PractitionerRole/987"
+            resource:
+              resourceType: PractitionerRole
+              id: "987"
+              code:
+                - coding:
+                    - system: "http://snomed.info/sct"
+                      code: "17561000"
+                      display: "Cardiologist"
+              practitioner:
+                reference: "Practitioner/111"
+          - search:
+              mode: include
+            fullUrl: "https://api.example.nhs.uk/fhir/R4/Practitioner/111"
+            resource:
+              resourceType: Practitioner
+              id: "111"
+              name:
+                - family: "Smith"
+                  given:
+                    - "Jane"
+    appointmentListWithIncludedLocation:
+      summary: 200 Appointment List with included Location
+      description: A response for a matched Appointment with its participant actors resolved via `_include` and `_include:iterate`.
+      value:
+        resourceType: Bundle
+        type: searchset
+        total: 1
+        link:
+          - relation: self
+            url: "https://api.example.nhs.uk/fhir/R4/Appointment?_id=appt12345&_include=Appointment:actor&_include:iterate=PractitionerRole:practitioner"
+        entry:
+          - search:
+              mode: match
+            fullUrl: "https://api.example.nhs.uk/fhir/R4/Appointment/12345"
+            resource:
+              resourceType: Appointment
+              id: "12345"
+              contained:
+                - resourceType: Media
+                  id: "uro-leaf-6176"
+                  status: preparation
+                  content:
+                    contentType: "text/html"
+                    url: "https://exampletrust.nhs.uk/patient-info/patient-leaftlet-urology"
+                    title: "Urology patient preparation guidance"
+              meta:
+                profile:
+                  - "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Appointment"
+                security:
+                  - system: "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+                    code: "NOPAT"
+              status: booked
+              description: "Cardiology"
+              start: "2026-08-12T09:30:00Z"
+              end: "2026-08-12T10:00:00Z"
+              specialty:
+                - coding:
+                    - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-PracticeSettingCode"
+                      code: "320"
+                      display: "Cardiology"
+              extension:
+                - url: "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AppointmentDeliveryChannel"
+                  valueCodeableConcept:
+                    coding:
+                      - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-AppointmentDeliveryChannel"
+                        code: "In-person"
+                        display: "In person"
+                - url: "https://fhir.nhs.uk/England/StructureDefinition/extension-appointment-reschedule-mode"
+                  valueCodeableConcept:
+                    coding:
+                      - system: "https://fhir.nhs.uk/England/CodeSystem/appointment-action-mode"
+                        code: "not-allowed"
+                        display: "Not allowed"
+                - url: "https://fhir.nhs.uk/England/StructureDefinition/extension-appointment-cancellation-mode"
+                  valueCodeableConcept:
+                    coding:
+                      - system: "https://fhir.nhs.uk/England/CodeSystem/appointment-action-mode"
+                        code: "not-allowed"
+                        display: "Not allowed"
+              _patientInstruction:
+                extension:
+                  - url: "http://hl7.org/fhir/5.0/StructureDefinition/extension-Appointment.patientInstruction"
+                    extension:
+                      - url: "http://hl7.org/fhir/StructureDefinition/_datatype"
+                        valueString: "CodeableReference"
+                      - url: "reference"
+                        valueReference:
+                          reference: "#uro-leaf-6176"
+                          type: "Media"
+                          display: "Arrive with a full bladder. Please review the preparation guidance before attending."
+              participant:
+                - actor:
+                    reference: "Patient/222"
+                    display: "John Doe"
+                  status: accepted
+                - actor:
+                    reference: "Practitioner/111"
+                    display: "Dr Jane Smith"
+                  status: accepted
+                - actor:
+                    reference: "PractitionerRole/987"
+                    display: "Consultant Cardiologist"
+                  status: accepted
+                - actor:
+                    reference: "Location/456"
+                    display: "Cardiology Outpatients, Clinic 4"
+                  status: accepted
+          - search:
+              mode: include
+            fullUrl: "https://api.example.nhs.uk/fhir/R4/Location/456"
+            resource:
+              resourceType: Location
+              id: "456"
+              name: "Cardiology Clinic"
+              telecom:
+                - system: phone
+                  value: "020 7188 1234"
+                  use: work
+                - system: email
+                  value: "cardiology.clinic@trust.nhs.uk"
+                  use: work
+              address:
+                use: work
+                type: physical
+                line:
+                  - "Cardiology Department"
+                  - "St Thomas' Hospital"
+                  - "Westminster Bridge Road"
+                city: "London"
+                postalCode: "SE1 7EH"
+                country: "GB"
+              position:
+                longitude: -0.11833
+                latitude: 51.49889
+              managingOrganization:
+                identifier:
+                  system: "https://fhir.nhs.uk/Id/ods-organization-code"
+                  value: "RJ1"
+    missingId:
+      summary: 400 Missing _id search parameter
+      description: No `_id` provided as a search parameter.
+      value:
+        resourceType: OperationOutcome
+        issue:
+          - severity: error
+            code: exception
+            diagnostics: '"_id" is required'
+    invalidAuthToken:
+      summary: 401 Missing or invalid OAuth 2.0 bearer token in request
+      description: Failed to complete verification of the authentication.
+      value:
+        resourceType: OperationOutcome
+        issue:
+          - severity: error
+            code: forbidden
+            diagnostics: Invalid access token
+    under16:
+      summary: 403 Patient is under 16 years of age
+      description: The NHS login token containing the patient's birthdate is compared to the system date/time. When the patient is under 16 years old the following error should be returned.
+      value:
+        resourceType: OperationOutcome
+        issue:
+          - severity: error
+            code: forbidden
+            diagnostics: UNDER_16_DENIED
+    notFound:
+      summary: 404 Appointment not found
+      description: The requested appointment could not be found.
+      value:
+        resourceType: OperationOutcome
+        issue:
+          - severity: error
+            code: not-found
+            diagnostics: NOT_FOUND
+    rateLimit:
+      summary: 429 Too Many Requests
+      description: HTTP Status 429 'Too Many Requests' response at 25 TPS (transactions per second).
+      value:
+        resourceType: OperationOutcome
+        issue:
+          - severity: error
+            code: exception
+            diagnostics: 'Too Many Requests'
+    gatewayTimeout:
+      summary: HTTP Status 504 - Gateway Timeout
+      description: HTTP Status 504 'Gateway Timeout' response after 9,000 ms have expired.
+      value:
+        resourceType: OperationOutcome
+        issue:
+          - severity: error
+            code: exception
+            diagnostics: 'Gateway Timeout'
+security:
+  - oAuth2ClientCredentials: []
+tags:
+  - name: /FHIR/R4
+    description: Producer FHIR API Standards
