@@ -1,7 +1,23 @@
 # BaRS: impact of removing National Record Locator references
 
 Review date: 14 September 2026  
+Problem statement added: 21 September 2026  
 Scope: public BaRS implementation guidance and published API specifications. No standards, systems or live records have been changed.
+
+## Problem statement: why NRL should be removed from BaRS
+
+BaRS currently describes an NRL integration that was never completed. Its NRL-related API operations are dead ends: they present suppliers with a documented route that does not deliver the intended end-to-end capability. Keeping these operations and their associated requirements in the standard creates a misleading expectation of what suppliers can implement and what BaRS supports.
+
+This creates four problems:
+
+1. **Incomplete functionality is presented as part of the standard.** The documented NRL operations and registry-dependent workflows imply an available capability, although the integration was never completed. Their continued inclusion leaves a gap between the published contract and the functionality that can be delivered.
+2. **Suppliers are confused about what they need to build.** Suppliers cannot reliably distinguish supported requirements from unfinished proposals. They may spend time designing against dead-end operations, seeking clarification or planning registry integration that cannot be completed. This introduces avoidable implementation effort and uncertainty about conformance.
+3. **The underlying use case has never had full product-owner support.** Without that support, there is no sufficiently agreed basis for requiring suppliers to implement this approach. Retaining it in the standard allows an unresolved product proposal to appear to be an established commitment.
+4. **The original approach needs to be reassessed.** There may now be better or alternative ways to meet the underlying discovery and access needs. Continuing to prescribe NRL within BaRS constrains that assessment before the use case, ownership and options have been agreed. No replacement is assumed or selected by this report.
+
+NRL-specific operations, references and dependent requirements should therefore be removed from the active BaRS standard and API through a coordinated change. This would give suppliers a clearer, implementable contract and allow any future record-discovery requirement to be considered on its own merits, with explicit product ownership and an assessment of the available approaches. Direct booking and referral functionality should be preserved.
+
+*Basis: the implementation status, supplier confusion and product-owner support described above are project context supplied for this report on 21 September 2026. They were not independently established by the public-document review. The possibility of alternative approaches is a reason for reassessment, not a finding that a particular replacement is available or superior.*
 
 ## Assessment
 
