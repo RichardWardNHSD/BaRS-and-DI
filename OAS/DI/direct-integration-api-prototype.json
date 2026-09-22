@@ -330,120 +330,884 @@
                 "schema": {
                   "$ref": "#/components/schemas/SearchBundleAppt"
                 },
-                "example": {
-                  "resourceType": "Bundle",
-                  "type": "searchset",
-                  "total": 2,
-                  "link": [
-                    {
-                      "relation": "self",
-                      "url": "https://int.api.service.nhs.uk/FHIR/R4/Appointment"
-                    }
-                  ],
-                  "entry": [
-                    {
-                      "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/c3f6145e-1a26-4345-b3f2-dccbcba62049",
-                      "resource": {
-                        "resourceType": "Appointment",
-                        "id": "c3f6145e-1a26-4345-b3f2-dccbcba62049",
-                        "meta": {
-                          "lastUpdated": "2021-11-11T12:11:30+00:00",
-                          "profile": [
-                            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Appointment"
-                          ]
-                        },
-                        "status": "booked",
-                        "description": "Reason for calling",
-                        "start": "2021-10-12T12:30:30+00:00",
-                        "end": "2021-10-12T12:40:30+00:00",
-                        "slot": [
-                          {
-                            "reference": "Slot/95CA8891-5CB2-4AFC-A6E4-2D20645FDE60"
-                          }
-                        ],
-                        "created": "2021-10-11T15:01:30+00:00",
-                        "basedOn": [
-                          {
-                            "reference": "ServiceRequest/136bb75d-90ef-461f-4773-fde7f899803d",
-                            "type": "ServiceRequest"
-                          }
-                        ],
-                        "participant": [
-                          {
-                            "actor": {
-                              "reference": "urn:uuid:788660eb-d2c9-4773-abd4-318484673fb2"
+                "examples": {
+                  "BookingsForPatient": {
+                    "summary": "Bookings for a patient — without inclusions",
+                    "value": {
+                      "resourceType": "Bundle",
+                      "type": "searchset",
+                      "total": 2,
+                      "link": [
+                        {
+                          "relation": "self",
+                          "url": "https://int.api.service.nhs.uk/FHIR/R4/Appointment"
+                        }
+                      ],
+                      "entry": [
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                          "resource": {
+                            "resourceType": "Appointment",
+                            "id": "c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                            "meta": {
+                              "lastUpdated": "2021-11-11T12:11:30+00:00",
+                              "profile": [
+                                "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Appointment"
+                              ]
                             },
-                            "status": "accepted",
-                            "type": [
+                            "status": "booked",
+                            "description": "Reason for calling",
+                            "start": "2021-10-12T12:30:30+00:00",
+                            "end": "2021-10-12T12:40:30+00:00",
+                            "slot": [
                               {
-                                "coding": [
+                                "reference": "Slot/95CA8891-5CB2-4AFC-A6E4-2D20645FDE60"
+                              }
+                            ],
+                            "created": "2021-10-11T15:01:30+00:00",
+                            "basedOn": [
+                              {
+                                "reference": "ServiceRequest/136bb75d-90ef-461f-4773-fde7f899803d",
+                                "type": "ServiceRequest"
+                              }
+                            ],
+                            "participant": [
+                              {
+                                "actor": {
+                                  "reference": "urn:uuid:788660eb-d2c9-4773-abd4-318484673fb2"
+                                },
+                                "status": "accepted",
+                                "type": [
                                   {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-                                    "code": "ATND",
-                                    "display": "attender"
+                                    "coding": [
+                                      {
+                                        "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                        "code": "ATND",
+                                        "display": "attender"
+                                      }
+                                    ]
                                   }
                                 ]
                               }
                             ]
+                          },
+                          "search": {
+                            "mode": "match"
                           }
-                        ]
-                      },
-                      "search": {
-                        "mode": "match"
-                      }
-                    },
-                    {
-                      "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/91607239-b002-470a-8709-6b25bd50fdd1",
-                      "resource": {
-                        "resourceType": "Appointment",
-                        "id": "91607239-b002-470a-8709-6b25bd50fdd1",
-                        "meta": {
-                          "lastUpdated": "2021-10-11T15:01:30+00:00",
-                          "profile": [
-                            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Appointment"
-                          ]
                         },
-                        "status": "booked",
-                        "description": "Reason for calling",
-                        "start": "2021-10-12T12:30:30+00:00",
-                        "end": "2021-10-12T12:40:30+00:00",
-                        "slot": [
-                          {
-                            "reference": "Slot/deb4c4b3-870b-4599-84df-5e54cef7afda"
-                          }
-                        ],
-                        "created": "2021-10-11T15:01:30+00:00",
-                        "basedOn": [
-                          {
-                            "reference": "ServiceRequest/236bb75d-90ef-461f-b71e-fde7f899802c",
-                            "type": "ServiceRequest"
-                          }
-                        ],
-                        "participant": [
-                          {
-                            "actor": {
-                              "reference": "urn:uuid:788660eb-d2c9-4773-abd4-318484673fb2"
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/91607239-b002-470a-8709-6b25bd50fdd1",
+                          "resource": {
+                            "resourceType": "Appointment",
+                            "id": "91607239-b002-470a-8709-6b25bd50fdd1",
+                            "meta": {
+                              "lastUpdated": "2021-10-11T15:01:30+00:00",
+                              "profile": [
+                                "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Appointment"
+                              ]
                             },
-                            "status": "accepted",
-                            "type": [
+                            "status": "booked",
+                            "description": "Reason for calling",
+                            "start": "2021-10-12T12:30:30+00:00",
+                            "end": "2021-10-12T12:40:30+00:00",
+                            "slot": [
                               {
-                                "coding": [
+                                "reference": "Slot/deb4c4b3-870b-4599-84df-5e54cef7afda"
+                              }
+                            ],
+                            "created": "2021-10-11T15:01:30+00:00",
+                            "basedOn": [
+                              {
+                                "reference": "ServiceRequest/236bb75d-90ef-461f-b71e-fde7f899802c",
+                                "type": "ServiceRequest"
+                              }
+                            ],
+                            "participant": [
+                              {
+                                "actor": {
+                                  "reference": "urn:uuid:788660eb-d2c9-4773-abd4-318484673fb2"
+                                },
+                                "status": "accepted",
+                                "type": [
                                   {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-                                    "code": "ATND",
-                                    "display": "attender"
+                                    "coding": [
+                                      {
+                                        "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                        "code": "ATND",
+                                        "display": "attender"
+                                      }
+                                    ]
                                   }
                                 ]
                               }
                             ]
+                          },
+                          "search": {
+                            "mode": "match"
                           }
-                        ]
-                      },
-                      "search": {
-                        "mode": "match"
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  },
+                  "AppointmentWithSlot": {
+                    "summary": "1. Include the linked Slot",
+                    "description": "Successful response to `GET https://int.api.service.nhs.uk/FHIR/R4/Appointment?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C4857773456&_include=Appointment%3Aslot`. Illustrative data. `total` counts matched Appointments only; related resources have `search.mode: include`.",
+                    "value": {
+                      "resourceType": "Bundle",
+                      "type": "searchset",
+                      "total": 1,
+                      "link": [
+                        {
+                          "relation": "self",
+                          "url": "https://int.api.service.nhs.uk/FHIR/R4/Appointment?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C4857773456&_include=Appointment%3Aslot"
+                        }
+                      ],
+                      "entry": [
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                          "resource": {
+                            "resourceType": "Appointment",
+                            "id": "c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                            "status": "booked",
+                            "description": "Example outpatient appointment",
+                            "start": "2026-10-12T09:00:00+00:00",
+                            "end": "2026-10-12T09:20:00+00:00",
+                            "participant": [
+                              {
+                                "actor": {
+                                  "identifier": {
+                                    "system": "https://fhir.nhs.uk/Id/nhs-number",
+                                    "value": "4857773456"
+                                  },
+                                  "display": "Example patient"
+                                },
+                                "status": "accepted"
+                              }
+                            ],
+                            "extension": [
+                              {
+                                "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AppointmentDeliveryChannel",
+                                "valueCodeableConcept": {
+                                  "coding": [
+                                    {
+                                      "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-AppointmentDeliveryChannel",
+                                      "code": "In-person",
+                                      "display": "In person"
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "specialty": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-PracticeSettingCode",
+                                    "code": "320",
+                                    "display": "Cardiology"
+                                  }
+                                ]
+                              }
+                            ],
+                            "contained": [
+                              {
+                                "resourceType": "Media",
+                                "id": "instructions",
+                                "status": "completed",
+                                "content": {
+                                  "contentType": "text/plain",
+                                  "data": "UGxlYXNlIGFycml2ZSB0ZW4gbWludXRlcyBlYXJseS4="
+                                }
+                              }
+                            ],
+                            "_patientInstruction": {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-Appointment.patientInstruction",
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+                                      "valueString": "CodeableReference"
+                                    },
+                                    {
+                                      "url": "reference",
+                                      "valueReference": {
+                                        "reference": "#instructions",
+                                        "type": "Media",
+                                        "display": "Please arrive ten minutes early."
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "slot": [
+                              {
+                                "reference": "Slot/slot-example"
+                              }
+                            ]
+                          },
+                          "search": {
+                            "mode": "match"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Slot/slot-example",
+                          "resource": {
+                            "resourceType": "Slot",
+                            "id": "slot-example",
+                            "schedule": {
+                              "reference": "Schedule/schedule-example"
+                            },
+                            "status": "busy",
+                            "start": "2026-10-12T09:00:00+00:00",
+                            "end": "2026-10-12T09:20:00+00:00"
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "AppointmentWithSlotServiceAndLocation": {
+                    "summary": "2. Include Slot, Schedule, HealthcareService and Location",
+                    "description": "Successful response to `GET https://int.api.service.nhs.uk/FHIR/R4/Appointment?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C4857773456&_include=Appointment%3Aslot&_include=Slot%3Aschedule&_include=Schedule%3Aactor%3AHealthcareService&_include=HealthcareService%3Alocation`. Illustrative data. `total` counts matched Appointments only; related resources have `search.mode: include`.",
+                    "value": {
+                      "resourceType": "Bundle",
+                      "type": "searchset",
+                      "total": 1,
+                      "link": [
+                        {
+                          "relation": "self",
+                          "url": "https://int.api.service.nhs.uk/FHIR/R4/Appointment?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C4857773456&_include=Appointment%3Aslot&_include=Slot%3Aschedule&_include=Schedule%3Aactor%3AHealthcareService&_include=HealthcareService%3Alocation"
+                        }
+                      ],
+                      "entry": [
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                          "resource": {
+                            "resourceType": "Appointment",
+                            "id": "c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                            "status": "booked",
+                            "description": "Example outpatient appointment",
+                            "start": "2026-10-12T09:00:00+00:00",
+                            "end": "2026-10-12T09:20:00+00:00",
+                            "participant": [
+                              {
+                                "actor": {
+                                  "identifier": {
+                                    "system": "https://fhir.nhs.uk/Id/nhs-number",
+                                    "value": "4857773456"
+                                  },
+                                  "display": "Example patient"
+                                },
+                                "status": "accepted"
+                              }
+                            ],
+                            "extension": [
+                              {
+                                "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AppointmentDeliveryChannel",
+                                "valueCodeableConcept": {
+                                  "coding": [
+                                    {
+                                      "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-AppointmentDeliveryChannel",
+                                      "code": "In-person",
+                                      "display": "In person"
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "specialty": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-PracticeSettingCode",
+                                    "code": "320",
+                                    "display": "Cardiology"
+                                  }
+                                ]
+                              }
+                            ],
+                            "contained": [
+                              {
+                                "resourceType": "Media",
+                                "id": "instructions",
+                                "status": "completed",
+                                "content": {
+                                  "contentType": "text/plain",
+                                  "data": "UGxlYXNlIGFycml2ZSB0ZW4gbWludXRlcyBlYXJseS4="
+                                }
+                              }
+                            ],
+                            "_patientInstruction": {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-Appointment.patientInstruction",
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+                                      "valueString": "CodeableReference"
+                                    },
+                                    {
+                                      "url": "reference",
+                                      "valueReference": {
+                                        "reference": "#instructions",
+                                        "type": "Media",
+                                        "display": "Please arrive ten minutes early."
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "slot": [
+                              {
+                                "reference": "Slot/slot-example"
+                              }
+                            ]
+                          },
+                          "search": {
+                            "mode": "match"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Slot/slot-example",
+                          "resource": {
+                            "resourceType": "Slot",
+                            "id": "slot-example",
+                            "schedule": {
+                              "reference": "Schedule/schedule-example"
+                            },
+                            "status": "busy",
+                            "start": "2026-10-12T09:00:00+00:00",
+                            "end": "2026-10-12T09:20:00+00:00"
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Schedule/schedule-example",
+                          "resource": {
+                            "resourceType": "Schedule",
+                            "id": "schedule-example",
+                            "active": true,
+                            "actor": [
+                              {
+                                "reference": "HealthcareService/service-example"
+                              }
+                            ]
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/HealthcareService/service-example",
+                          "resource": {
+                            "resourceType": "HealthcareService",
+                            "id": "service-example",
+                            "active": true,
+                            "name": "Example outpatient service",
+                            "location": [
+                              {
+                                "reference": "Location/location-example"
+                              }
+                            ]
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Location/location-example",
+                          "resource": {
+                            "resourceType": "Location",
+                            "id": "location-example",
+                            "status": "active",
+                            "name": "Example outpatient clinic",
+                            "telecom": [
+                              {
+                                "system": "phone",
+                                "value": "01632 960123",
+                                "use": "work"
+                              }
+                            ],
+                            "address": {
+                              "use": "work",
+                              "type": "physical",
+                              "line": [
+                                "Example Hospital",
+                                "1 Example Road"
+                              ],
+                              "city": "Exampletown",
+                              "postalCode": "ZZ99 3WZ",
+                              "country": "GB"
+                            },
+                            "managingOrganization": {
+                              "identifier": {
+                                "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                                "value": "RXX"
+                              }
+                            }
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "AppointmentWithReferral": {
+                    "summary": "3. Include the referral (ServiceRequest)",
+                    "description": "Successful response to `GET https://int.api.service.nhs.uk/FHIR/R4/Appointment?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C4857773456&_include=Appointment%3Abased-on`. Illustrative data. `total` counts matched Appointments only; related resources have `search.mode: include`.",
+                    "value": {
+                      "resourceType": "Bundle",
+                      "type": "searchset",
+                      "total": 1,
+                      "link": [
+                        {
+                          "relation": "self",
+                          "url": "https://int.api.service.nhs.uk/FHIR/R4/Appointment?patient%3Aidentifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2Fnhs-number%7C4857773456&_include=Appointment%3Abased-on"
+                        }
+                      ],
+                      "entry": [
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                          "resource": {
+                            "resourceType": "Appointment",
+                            "id": "c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                            "status": "booked",
+                            "description": "Example outpatient appointment",
+                            "start": "2026-10-12T09:00:00+00:00",
+                            "end": "2026-10-12T09:20:00+00:00",
+                            "participant": [
+                              {
+                                "actor": {
+                                  "identifier": {
+                                    "system": "https://fhir.nhs.uk/Id/nhs-number",
+                                    "value": "4857773456"
+                                  },
+                                  "display": "Example patient"
+                                },
+                                "status": "accepted"
+                              }
+                            ],
+                            "extension": [
+                              {
+                                "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AppointmentDeliveryChannel",
+                                "valueCodeableConcept": {
+                                  "coding": [
+                                    {
+                                      "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-AppointmentDeliveryChannel",
+                                      "code": "In-person",
+                                      "display": "In person"
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "specialty": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-PracticeSettingCode",
+                                    "code": "320",
+                                    "display": "Cardiology"
+                                  }
+                                ]
+                              }
+                            ],
+                            "contained": [
+                              {
+                                "resourceType": "Media",
+                                "id": "instructions",
+                                "status": "completed",
+                                "content": {
+                                  "contentType": "text/plain",
+                                  "data": "UGxlYXNlIGFycml2ZSB0ZW4gbWludXRlcyBlYXJseS4="
+                                }
+                              }
+                            ],
+                            "_patientInstruction": {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-Appointment.patientInstruction",
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+                                      "valueString": "CodeableReference"
+                                    },
+                                    {
+                                      "url": "reference",
+                                      "valueReference": {
+                                        "reference": "#instructions",
+                                        "type": "Media",
+                                        "display": "Please arrive ten minutes early."
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "basedOn": [
+                              {
+                                "reference": "ServiceRequest/referral-example"
+                              }
+                            ]
+                          },
+                          "search": {
+                            "mode": "match"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/ServiceRequest/referral-example",
+                          "resource": {
+                            "resourceType": "ServiceRequest",
+                            "id": "referral-example",
+                            "status": "active",
+                            "intent": "order",
+                            "code": {
+                              "text": "Outpatient consultation"
+                            },
+                            "subject": {
+                              "identifier": {
+                                "system": "https://fhir.nhs.uk/Id/nhs-number",
+                                "value": "4857773456"
+                              },
+                              "display": "Example patient"
+                            }
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "AppointmentWithLocation": {
+                    "summary": "4. Include the Location participant",
+                    "description": "Successful response to `GET https://int.api.service.nhs.uk/FHIR/R4/Appointment?_id=c3f6145e-1a26-4345-b3f2-dccbcba62049&_include=Appointment%3Alocation`. Illustrative data. `total` counts matched Appointments only; related resources have `search.mode: include`.",
+                    "value": {
+                      "resourceType": "Bundle",
+                      "type": "searchset",
+                      "total": 1,
+                      "link": [
+                        {
+                          "relation": "self",
+                          "url": "https://int.api.service.nhs.uk/FHIR/R4/Appointment?_id=c3f6145e-1a26-4345-b3f2-dccbcba62049&_include=Appointment%3Alocation"
+                        }
+                      ],
+                      "entry": [
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                          "resource": {
+                            "resourceType": "Appointment",
+                            "id": "c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                            "status": "booked",
+                            "description": "Example outpatient appointment",
+                            "start": "2026-10-12T09:00:00+00:00",
+                            "end": "2026-10-12T09:20:00+00:00",
+                            "participant": [
+                              {
+                                "actor": {
+                                  "identifier": {
+                                    "system": "https://fhir.nhs.uk/Id/nhs-number",
+                                    "value": "4857773456"
+                                  },
+                                  "display": "Example patient"
+                                },
+                                "status": "accepted"
+                              },
+                              {
+                                "actor": {
+                                  "reference": "Location/location-example"
+                                },
+                                "status": "accepted"
+                              }
+                            ],
+                            "extension": [
+                              {
+                                "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AppointmentDeliveryChannel",
+                                "valueCodeableConcept": {
+                                  "coding": [
+                                    {
+                                      "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-AppointmentDeliveryChannel",
+                                      "code": "In-person",
+                                      "display": "In person"
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "specialty": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-PracticeSettingCode",
+                                    "code": "320",
+                                    "display": "Cardiology"
+                                  }
+                                ]
+                              }
+                            ],
+                            "contained": [
+                              {
+                                "resourceType": "Media",
+                                "id": "instructions",
+                                "status": "completed",
+                                "content": {
+                                  "contentType": "text/plain",
+                                  "data": "UGxlYXNlIGFycml2ZSB0ZW4gbWludXRlcyBlYXJseS4="
+                                }
+                              }
+                            ],
+                            "_patientInstruction": {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-Appointment.patientInstruction",
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+                                      "valueString": "CodeableReference"
+                                    },
+                                    {
+                                      "url": "reference",
+                                      "valueReference": {
+                                        "reference": "#instructions",
+                                        "type": "Media",
+                                        "display": "Please arrive ten minutes early."
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "search": {
+                            "mode": "match"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Location/location-example",
+                          "resource": {
+                            "resourceType": "Location",
+                            "id": "location-example",
+                            "status": "active",
+                            "name": "Example outpatient clinic",
+                            "telecom": [
+                              {
+                                "system": "phone",
+                                "value": "01632 960123",
+                                "use": "work"
+                              }
+                            ],
+                            "address": {
+                              "use": "work",
+                              "type": "physical",
+                              "line": [
+                                "Example Hospital",
+                                "1 Example Road"
+                              ],
+                              "city": "Exampletown",
+                              "postalCode": "ZZ99 3WZ",
+                              "country": "GB"
+                            },
+                            "managingOrganization": {
+                              "identifier": {
+                                "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                                "value": "RXX"
+                              }
+                            }
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "AppointmentWithActorsAndPractitioner": {
+                    "summary": "5. Include participant actors and resolve PractitionerRole",
+                    "description": "Successful response to `GET https://int.api.service.nhs.uk/FHIR/R4/Appointment?_id=c3f6145e-1a26-4345-b3f2-dccbcba62049&_include=Appointment%3Aactor&_include%3Aiterate=PractitionerRole%3Apractitioner`. Illustrative data. `total` counts matched Appointments only; related resources have `search.mode: include`.",
+                    "value": {
+                      "resourceType": "Bundle",
+                      "type": "searchset",
+                      "total": 1,
+                      "link": [
+                        {
+                          "relation": "self",
+                          "url": "https://int.api.service.nhs.uk/FHIR/R4/Appointment?_id=c3f6145e-1a26-4345-b3f2-dccbcba62049&_include=Appointment%3Aactor&_include%3Aiterate=PractitionerRole%3Apractitioner"
+                        }
+                      ],
+                      "entry": [
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Appointment/c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                          "resource": {
+                            "resourceType": "Appointment",
+                            "id": "c3f6145e-1a26-4345-b3f2-dccbcba62049",
+                            "status": "booked",
+                            "description": "Example outpatient appointment",
+                            "start": "2026-10-12T09:00:00+00:00",
+                            "end": "2026-10-12T09:20:00+00:00",
+                            "participant": [
+                              {
+                                "actor": {
+                                  "identifier": {
+                                    "system": "https://fhir.nhs.uk/Id/nhs-number",
+                                    "value": "4857773456"
+                                  },
+                                  "display": "Example patient"
+                                },
+                                "status": "accepted"
+                              },
+                              {
+                                "actor": {
+                                  "reference": "Location/location-example"
+                                },
+                                "status": "accepted"
+                              },
+                              {
+                                "actor": {
+                                  "reference": "PractitionerRole/role-example"
+                                },
+                                "status": "accepted"
+                              }
+                            ],
+                            "extension": [
+                              {
+                                "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AppointmentDeliveryChannel",
+                                "valueCodeableConcept": {
+                                  "coding": [
+                                    {
+                                      "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-AppointmentDeliveryChannel",
+                                      "code": "In-person",
+                                      "display": "In person"
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "specialty": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-PracticeSettingCode",
+                                    "code": "320",
+                                    "display": "Cardiology"
+                                  }
+                                ]
+                              }
+                            ],
+                            "contained": [
+                              {
+                                "resourceType": "Media",
+                                "id": "instructions",
+                                "status": "completed",
+                                "content": {
+                                  "contentType": "text/plain",
+                                  "data": "UGxlYXNlIGFycml2ZSB0ZW4gbWludXRlcyBlYXJseS4="
+                                }
+                              }
+                            ],
+                            "_patientInstruction": {
+                              "extension": [
+                                {
+                                  "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-Appointment.patientInstruction",
+                                  "extension": [
+                                    {
+                                      "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+                                      "valueString": "CodeableReference"
+                                    },
+                                    {
+                                      "url": "reference",
+                                      "valueReference": {
+                                        "reference": "#instructions",
+                                        "type": "Media",
+                                        "display": "Please arrive ten minutes early."
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "search": {
+                            "mode": "match"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Location/location-example",
+                          "resource": {
+                            "resourceType": "Location",
+                            "id": "location-example",
+                            "status": "active",
+                            "name": "Example outpatient clinic",
+                            "telecom": [
+                              {
+                                "system": "phone",
+                                "value": "01632 960123",
+                                "use": "work"
+                              }
+                            ],
+                            "address": {
+                              "use": "work",
+                              "type": "physical",
+                              "line": [
+                                "Example Hospital",
+                                "1 Example Road"
+                              ],
+                              "city": "Exampletown",
+                              "postalCode": "ZZ99 3WZ",
+                              "country": "GB"
+                            },
+                            "managingOrganization": {
+                              "identifier": {
+                                "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                                "value": "RXX"
+                              }
+                            }
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/PractitionerRole/role-example",
+                          "resource": {
+                            "resourceType": "PractitionerRole",
+                            "id": "role-example",
+                            "practitioner": {
+                              "reference": "Practitioner/practitioner-example"
+                            }
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        },
+                        {
+                          "fullUrl": "https://int.api.service.nhs.uk/FHIR/R4/Practitioner/practitioner-example",
+                          "resource": {
+                            "resourceType": "Practitioner",
+                            "id": "practitioner-example",
+                            "name": [
+                              {
+                                "family": "Example",
+                                "given": [
+                                  "Alex"
+                                ]
+                              }
+                            ]
+                          },
+                          "search": {
+                            "mode": "include"
+                          }
+                        }
+                      ]
+                    }
+                  }
                 }
               },
               "application/fhir+xml": {
@@ -1721,7 +2485,8 @@
       },
       "AppointmentInclude_QParam": {
         "name": "_include",
-        "description": "Inclusions that drive the recursive depth of the search. Use this to ask the Receiver to return additional resources referenced by the Appointment(s), in the same response Bundle, rather than the sender having to perform separate follow-up reads.\n\n**Note**: _include shares the same syntax as _revinclude - up to three components, separated by colon characters (:). Unlike search queries, this is not a FHIRPath expression.\n\nThe parameter can be repeated to request more than one inclusion on the same request, allowing a full chain of related resources (for example Appointment -> Slot -> Schedule -> HealthcareService -> Location) to be resolved in a single call.\n\nThe full list of applicable _includes are shown below. If any cannot be honoured the Receiver will respond, ignoring the unsupported _include(s), with the url reflecting this omission in the response Bundle.link.url.\n\n|Expression                        | Inclusion         |Description|\n|-------                           |--------           |-------- |\n| Appointment:slot                 | Slot               | Include the Slot Resource(s) referenced within the Appointment Resources|\n| Appointment:based-on             | ServiceRequest     | Include the ServiceRequest (referral) Resource that the Appointment is based on|\n| Slot:schedule                    | Schedule           | Include Schedule Resources referenced within the Slot Resources|\n| Schedule:actor:Practitioner      | Practitioner       | Include Practitioner Resources referenced within the Schedule Resources|\n| Schedule:actor:PractitionerRole  | PractitionerRole   | Include PractitionerRole Resources referenced within the Schedule Resources|\n| Schedule:actor:HealthcareService | HealthcareService  | Include HealthcareService Resources referenced within the Schedule Resources|\n| HealthcareService:providedBy     | Organization       | Include Organization Resources referenced within the HealthcareService Resources|\n| HealthcareService:location       | Location           | Include Location Resources referenced within the HealthcareService Resources|\n\n**Example usage**\n\nGet bookings for a patient and include just the Slot each booking is linked to:\n\n`GET [base]/Appointment?patient:identifier=https://fhir.nhs.uk/Id/nhs-number|4857773456&_include=Appointment:slot`\n\nGet bookings for a patient and resolve the chain from Slot through to the HealthcareService and Location it is delivered at:\n\n`GET [base]/Appointment?patient:identifier=https://fhir.nhs.uk/Id/nhs-number|4857773456&_include=Appointment:slot&_include=Slot:schedule&_include=Schedule:actor:HealthcareService&_include=HealthcareService:location`\n\nGet bookings for a patient and include the referral (ServiceRequest) each booking was based on:\n\n`GET [base]/Appointment?patient:identifier=https://fhir.nhs.uk/Id/nhs-number|4857773456&_include=Appointment:based-on`\n\n**Actor-based inclusions (Wayfinder Direct Integration compatibility)**\n\nIn addition to the BaRS reference chain above, the following actor-based shorthands are accepted. These resolve the resources referenced directly from `Appointment.participant.actor`, and are convenient when a Receiver models the Appointment's Location and Practitioner(s) as participants rather than via the Slot -> Schedule chain.\n\n|Expression              | Inclusion                                   |Description|\n|-------                 |--------                                     |-------- |\n| Appointment:location   | Location                                    | Include the Location resource(s) referenced from `Appointment.participant.actor` (primarily to obtain the ODS code).|\n| Appointment:actor      | Location, Practitioner, PractitionerRole    | Include all participant actor resources referenced from `Appointment.participant.actor`.|\n\nUse `_include:iterate=PractitionerRole:practitioner` to additionally resolve the Practitioner referenced by an included PractitionerRole.\n\n**Example usage (actor-based)**\n\nGet appointments for a patient and include the location:\n\n`GET [base]/Appointment?patient:identifier=https://fhir.nhs.uk/Id/nhs-number|4857773456&_include=Appointment:location`\n\nGet a single appointment and include all its participant actors, resolving the Practitioner behind each PractitionerRole:\n\n`GET [base]/Appointment?_id=c3f6145e-1a26-4345-b3f2-dccbcba62049&_include=Appointment:actor&_include:iterate=PractitionerRole:practitioner`\n",   "required": false,
+        "description": "Inclusions that drive the recursive depth of the search. Use this to ask the Receiver to return additional resources referenced by the Appointment(s), in the same response Bundle, rather than the sender having to perform separate follow-up reads.\n\n**Note**: _include shares the same syntax as _revinclude - up to three components, separated by colon characters (:). Unlike search queries, this is not a FHIRPath expression.\n\nThe parameter can be repeated to request more than one inclusion on the same request, allowing a full chain of related resources (for example Appointment -> Slot -> Schedule -> HealthcareService -> Location) to be resolved in a single call.\n\nThe full list of applicable _includes are shown below. If any cannot be honoured the Receiver will respond, ignoring the unsupported _include(s), with the url reflecting this omission in the response Bundle.link.url.\n\n|Expression                        | Inclusion         |Description|\n|-------                           |--------           |-------- |\n| Appointment:slot                 | Slot               | Include the Slot Resource(s) referenced within the Appointment Resources|\n| Appointment:based-on             | ServiceRequest     | Include the ServiceRequest (referral) Resource that the Appointment is based on|\n| Slot:schedule                    | Schedule           | Include Schedule Resources referenced within the Slot Resources|\n| Schedule:actor:Practitioner      | Practitioner       | Include Practitioner Resources referenced within the Schedule Resources|\n| Schedule:actor:PractitionerRole  | PractitionerRole   | Include PractitionerRole Resources referenced within the Schedule Resources|\n| Schedule:actor:HealthcareService | HealthcareService  | Include HealthcareService Resources referenced within the Schedule Resources|\n| HealthcareService:providedBy     | Organization       | Include Organization Resources referenced within the HealthcareService Resources|\n| HealthcareService:location       | Location           | Include Location Resources referenced within the HealthcareService Resources|\n\n**Example usage**\n\nGet bookings for a patient and include just the Slot each booking is linked to:\n\n`GET [base]/Appointment?patient:identifier=https://fhir.nhs.uk/Id/nhs-number|4857773456&_include=Appointment:slot`\n\nGet bookings for a patient and resolve the chain from Slot through to the HealthcareService and Location it is delivered at:\n\n`GET [base]/Appointment?patient:identifier=https://fhir.nhs.uk/Id/nhs-number|4857773456&_include=Appointment:slot&_include=Slot:schedule&_include=Schedule:actor:HealthcareService&_include=HealthcareService:location`\n\nGet bookings for a patient and include the referral (ServiceRequest) each booking was based on:\n\n`GET [base]/Appointment?patient:identifier=https://fhir.nhs.uk/Id/nhs-number|4857773456&_include=Appointment:based-on`\n\n**Actor-based inclusions (Wayfinder Direct Integration compatibility)**\n\nIn addition to the BaRS reference chain above, the following actor-based shorthands are accepted. These resolve the resources referenced directly from `Appointment.participant.actor`, and are convenient when a Receiver models the Appointment's Location and Practitioner(s) as participants rather than via the Slot -> Schedule chain.\n\n|Expression              | Inclusion                                   |Description|\n|-------                 |--------                                     |-------- |\n| Appointment:location   | Location                                    | Include the Location resource(s) referenced from `Appointment.participant.actor` (primarily to obtain the ODS code).|\n| Appointment:actor      | Location, Practitioner, PractitionerRole    | Include all participant actor resources referenced from `Appointment.participant.actor`.|\n\nUse `_include:iterate=PractitionerRole:practitioner` to additionally resolve the Practitioner referenced by an included PractitionerRole.\n\n**Example usage (actor-based)**\n\nGet a single appointment and include its Location:\n\n`GET [base]/Appointment?_id=c3f6145e-1a26-4345-b3f2-dccbcba62049&_include=Appointment:location`\n\nGet a single appointment and include all its participant actors, resolving the Practitioner behind each PractitionerRole:\n\n`GET [base]/Appointment?_id=c3f6145e-1a26-4345-b3f2-dccbcba62049&_include=Appointment:actor&_include:iterate=PractitionerRole:practitioner`\n",
+        "required": false,
         "in": "query",
         "explode": true,
         "schema": {
